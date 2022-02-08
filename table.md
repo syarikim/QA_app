@@ -14,7 +14,6 @@ questions
 | 属性の意味    | カラム名     | 型      | その他(null、ユニーク、デフォルト値)  |
 |----------| ------------ | ------- |------------------------|
 | ID連番     | user_id      | int     | not_null,uniq          |
-| 名前       | user_name    | string  | not_null               |
 | 質問タイトル   | title        | string | not_null               | 
 | 質問詳細     | detail       | text   |                        | 
 | 質問のステータス | status       | enum   | 0:未解決,1:解決済み　defalut:0 | 
