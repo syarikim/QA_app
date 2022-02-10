@@ -26,5 +26,4 @@ answers
 | --------------------- | ------------ | ------ | ------------------------------------ | 
 | usersとの紐付けFK     | user_id      | int    | not_null                             | 
 | questionsとの紐付けFK | question_id | int    | not_null                             | 
-| 答えタイトル          | title        | string | not_null                             | 
 | 答え詳細              | detail       | text   |                                      | 
