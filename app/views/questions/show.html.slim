@@ -1,0 +1,24 @@
+h1 詳細
+
+
+.nav.justify-content-end
+  = link_to '一覧', questions_path, class: 'nav-link'
+table.table.table-hover
+  tbody
+    tr
+      th= 'id'
+      th = @question.id
+    tr
+      th = 'title'
+      th =  @question.title
+    tr
+      th = 'detail'
+      th = simple_format(h(@question.detail),{},sanitize: false, wrapper_tag: "div")
+    tr
+      th = '作成時刻'
+      th = @question.created_at
+
+= link_to '編集', edit_question_path, class: 'btn btn-primary mr-3'
+= link_to '削除',@question, method: :delete, data: { confirm: "#{@question.title}を削除しますか？"}, class: 'btn btn-danger'
+
+/= link_to '削除',@question, class: 'btn btn-danger'  = link_to  '削除', @question, data: { turbo_method: :delete,turbo_confirm: "#{@question.title}を削除しますか？"} ,class: 'btn btn-danger'

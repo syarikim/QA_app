@@ -1,0 +1,15 @@
+h1 ユーザ一覧
+
+.mb-3
+  table.table.table-hover
+    thead.thead-default
+      tr
+        th = "img"
+        th = "name"
+      tbody
+        - @users.each do |user|
+          tr
+            td = image_tag user.image.variant(:thumb)   if user.image.attached?
+            td = user.name
+            td
+

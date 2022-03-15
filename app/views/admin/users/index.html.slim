@@ -1,0 +1,14 @@
+h1 管理者用ユーザ一覧
+
+.mb-3
+  table.table.table-hover
+    thead.thead-default
+      tr
+        th = "name"
+      tbody
+        - @users.each do |user|
+          tr
+            td = image_tag user.image if user.image.attached?
+            td = user.name
+            td = user.admin
+            td = link_to  '削除', [:admin, user], data: { turbo_method: :delete,turbo_confirm: "#{user.name}を削除しますか？"} ,class: 'btn btn-danger'
