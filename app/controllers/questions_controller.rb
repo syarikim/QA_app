@@ -6,11 +6,13 @@ class QuestionsController < ApplicationController
   end
 
   def unsolved
-    @questions = Question.where(status: 0)
+    @q = Question.where(status: 0).ransack(params[:q])
+    @questions = @q.result(distinct: true).page(params[:page])
   end
 
   def solved
-    @questions = Question.where(status: 1)
+    @q = Question.where(status: 1).ransack(params[:q])
+    @questions = @q.result(distinct: true).page(params[:page])
   end
 
   def new
@@ -25,8 +27,9 @@ class QuestionsController < ApplicationController
     redirect_to questions_url, notice: "質問 #{question.title}を登録しました。"
   end
 
-  def  show
+  def show
     @question = Question.find(params[:id])
+    @answers = Answer.where(question_id: @question.id)
   end
 
   def edit

@@ -1,6 +1,5 @@
 h1 詳細
 
-
 .nav.justify-content-end
   = link_to '一覧', questions_path, class: 'nav-link'
 table.table.table-hover
@@ -17,8 +16,26 @@ table.table.table-hover
     tr
       th = '作成時刻'
       th = @question.created_at
-
 = link_to '編集', edit_question_path, class: 'btn btn-primary mr-3'
-= link_to '削除',@question, method: :delete, data: { confirm: "#{@question.title}を削除しますか？"}, class: 'btn btn-danger'
+= link_to '削除', @question, data: { turbo_method: :delete,turbo_confirm: "#{@question.title}を削除しますか？"} ,class: 'btn btn-danger'
 
-/= link_to '削除',@question, class: 'btn btn-danger'  = link_to  '削除', @question, data: { turbo_method: :delete,turbo_confirm: "#{@question.title}を削除しますか？"} ,class: 'btn btn-danger'
+.card.card-body
+  = form_with model:[@answers],url: question_answers_path(@question.id), method: :post,local: true do |f|
+    .form-group
+      = f.label :detail
+      = f.text_field :detail, class: 'form-control'
+    = f.submit '送信', class: 'btn btn-primary'
+
+  ul.list-unstyled
+    ul.list-unstyled
+     - @answers.each do |ans|
+        li#answer_16.media.mb-3.border-bottom.pb-3
+          img.mr-3.rounded-circle src="https://placehold.jp/64x64.png" /
+          .media-body
+            .d-flex.flex-column.justify-content-between
+            div
+             p =ans.detail
+            .text-right
+              div
+                = link_to '削除', question_answer_path(ans), data: { turbo_method: :delete,turbo_confirm: "削除しますか？"} ,class: 'btn btn-danger'
+              span.small.text-muted = ans.created_at

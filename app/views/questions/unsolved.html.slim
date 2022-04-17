@@ -1,4 +1,18 @@
-h1
-  | Questions#unsolved
-p
-  | Find me in app/views/questions/unsolved.html.erb
+h1 質問一覧
+= search_form_for @q, class: 'mb-5' do |f|
+  .form-group.row
+    = f.label :title_cont, '名称', class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.search_field :title_cont, class: 'form-control'
+  .form-group
+    = f.submit class: 'btn btn-outline-primary'
+= link_to '新規作成', new_question_path, class: 'btn btn-primary'
+
+ul.nav.nav-tabs
+  li.nav-item
+    a.nav-link href= questions_path  全て
+  li.nav-item
+    a.nav-link href=questions_solved_path  解決済み
+  li.nav-item
+    a.nav-link.active aria-current="page" href=questions_unsolved_path  未解決
+    = render partial: 'questionindexshow', locals: { questions: @questions}
