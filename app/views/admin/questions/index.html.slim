@@ -1,2 +1,14 @@
-h1 Admin::Questions#index
-p Find me in app/views/admin/questions/index.html.slim
+h1 管理者用QA一覧
+
+.mb-3
+  table.table.table-hover
+    thead.thead-default
+      tr
+        th = "title"
+        th = "name"
+      tbody
+        -   @questions.each do |question|
+          tr
+            td = question.title
+            td = question.user.name
+            td = link_to  '削除', [:admin, question], data: { turbo_method: :delete,turbo_confirm: "#{question.title}を削除しますか？"} ,class: 'btn btn-danger'

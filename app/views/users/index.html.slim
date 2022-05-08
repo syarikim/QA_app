@@ -9,7 +9,7 @@ h1 ユーザ一覧
       tbody
         - @users.each do |user|
           tr
-            td = image_tag user.image.variant(:thumb)   if user.image.attached?
+            td = image_tag user.image.variant(:thumb),class:"user-icon"   if user.image.attached?
             td = user.name
             td
 

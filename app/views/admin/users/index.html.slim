@@ -8,7 +8,7 @@ h1 管理者用ユーザ一覧
       tbody
         - @users.each do |user|
           tr
-            td = image_tag user.image if user.image.attached?
+            td = image_tag user.image.variant(:thumb),class:"user-icon"   if user.image.attached?
             td = user.name
             td = user.admin
             td = link_to  '削除', [:admin, user], data: { turbo_method: :delete,turbo_confirm: "#{user.name}を削除しますか？"} ,class: 'btn btn-danger'

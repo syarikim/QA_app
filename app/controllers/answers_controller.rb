@@ -1,7 +1,8 @@
 class AnswersController < ApplicationController
   def create
-    Answer.create!(detail: answer_params[:detail], question_id: params[:question_id], user_id: 17)
+    @answer = Answer.create!(detail: answer_params[:detail], question_id: params[:question_id], user_id: current_user.id)
     redirect_to question_url(params[:question_id]), notice: "回答を追加しました"
+    AnswerMailer.creation_email(@answer, current_user).deliver_now
   end
 
   def destroy

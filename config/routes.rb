@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'questions/index'
     get 'users/index'
-    resources :users
+    resources :users, only: %i[index destroy]
+    resources :questions, only: %i[index destroy]
   end
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -15,9 +16,9 @@ Rails.application.routes.draw do
   get 'questions/unsolved'
   get 'questions/solved'
   resources :questions
-  # post 'questions/:id/answers', to: 'answers#create', as: :answer
   resources :questions do
-    resources :answers, only: [:create, :destroy]
+    resources :answers, only: %i[create destroy]
+    resource  :solve, only: [:create], to: 'questions#solve'
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

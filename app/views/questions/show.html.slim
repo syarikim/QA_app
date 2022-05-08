@@ -1,12 +1,20 @@
 h1 詳細
 
 .nav.justify-content-end
-  = link_to '一覧', questions_path, class: 'nav-link'
+  - if @question.status == 0
+    badge.badge-danger 未解決
+    - if current_user&.id == @question.user_id
+      = button_to '解決済にする', question_solve_path(@question), data: { turbo_method: :post,turbo_confirm: "#{@question.title}を解決済みにしますか？"}, class: 'nav-link'
+  - else @question.status == 1
+    badge.badge-danger 解決済
+
+.nav.justify-content-end
+  = link_to '一覧へ戻る', questions_path,  class: 'nav-link'
 table.table.table-hover
   tbody
     tr
-      th= 'id'
-      th = @question.id
+      th= '質問者'
+      th = User.find(@question.user_id).name if @question.user_id
     tr
       th = 'title'
       th =  @question.title
@@ -16,26 +24,30 @@ table.table.table-hover
     tr
       th = '作成時刻'
       th = @question.created_at
-= link_to '編集', edit_question_path, class: 'btn btn-primary mr-3'
-= link_to '削除', @question, data: { turbo_method: :delete,turbo_confirm: "#{@question.title}を削除しますか？"} ,class: 'btn btn-danger'
+- if current_user&.id ==@question.user_id
+  = link_to '編集', edit_question_path, class: 'btn btn-primary mr-3'
+  = button_to '削除', @question, method: :delete, data: { turbo: false }
+  / = link_to '削除', @question, data: { turbo_method: :delete,turbo_confirm: "#{@question.title}を削除しますか？"} ,class: 'btn btn-danger'
+
 
 .card.card-body
   = form_with model:[@answers],url: question_answers_path(@question.id), method: :post,local: true do |f|
     .form-group
-      = f.label :detail
-      = f.text_field :detail, class: 'form-control'
+      = f.label '回答する'
+      = f.text_field :detail, class: 'form-control', required: true
     = f.submit '送信', class: 'btn btn-primary'
 
   ul.list-unstyled
     ul.list-unstyled
-     - @answers.each do |ans|
-        li#answer_16.media.mb-3.border-bottom.pb-3
-          img.mr-3.rounded-circle src="https://placehold.jp/64x64.png" /
+     - @answers.each do |answer|
+        li.media.mb-3.border-bottom.pb-3
+          img.mr-3.rounded-circle = image_tag answer.user.image.variant(:thumb)
           .media-body
             .d-flex.flex-column.justify-content-between
             div
-             p =ans.detail
+             p =answer.detail
             .text-right
               div
-                = link_to '削除', question_answer_path(ans), data: { turbo_method: :delete,turbo_confirm: "削除しますか？"} ,class: 'btn btn-danger'
-              span.small.text-muted = ans.created_at
+                - if current_user&.id == answer.user_id
+                  = link_to '削除', question_answer_path(answer), data: { turbo_method: :delete,turbo_confirm: "削除しますか？"} ,class: 'btn btn-danger'
+              span.small.text-muted = answer.created_at

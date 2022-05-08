@@ -13,10 +13,10 @@ html
       .navbar-brand
 
       u1.navbar-nav.ml-auto
-        li.nav-item= link_to 'question', questions_path, class: 'nav-link'
+        li.nav-item= link_to 'question', admin_questions_index_path, class: 'nav-link'
         -if current_user
           li.nav-item= link_to  'logout', logout_path, data: { turbo_method: :delete } ,class: 'nav-link'
-          li.nav-item= link_to  'user一覧', users_path ,class: 'nav-link'
+          li.nav-item= link_to  'user一覧', admin_users_path ,class: 'nav-link'
           li.nav-item.disabled = current_user.name
           item =  image_tag current_user.image.variant(:thumb)   if current_user.image.attached?
         -else
